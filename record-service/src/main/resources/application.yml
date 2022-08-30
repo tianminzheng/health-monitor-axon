@@ -1,0 +1,35 @@
+server:
+  port: 8081
+            
+spring:
+  datasource:
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     url: jdbc:mysql://localhost:3306/health_record?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+     username: root
+     password: root
+     
+  cloud:
+    stream:
+      bindings:
+        default:
+          content-type: application/json
+          binder: rabbitmq
+        monitorApplicationInput:
+          destination: monitorApplication
+          contentType: application/json  
+        planGenerationInput:
+          destination: planGeneration
+          contentType: application/json  
+        taskPerformingInput:
+          destination: taskPerforming
+          contentType: application/json  
+      binders:
+        rabbitmq:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 127.0.0.1
+                port: 5672
+                username: guest
+                password: guest
